@@ -83,8 +83,13 @@ class Runner:
                         print('Online status: ', 'offline')
                 name_score = sims_analyzer.analyze(user_name)
                 signature_score = sims_analyzer.analyze(signature)
+                score = 0
+                if signature_score == 0:
+                    score = name_score
+                else:
+                    score = (name_score * 0.6 + signature_score * 1.4) / 2
                 print('User analyze: ',
-                      sims_analyzer.judge_emotion((name_score * 0.6 + signature_score * 1.4) / 2, suffix='用户'),
+                      sims_analyzer.judge_emotion(score, suffix='用户'),
                       '({}, {})'.format(name_score, signature_score))
                 print()
             elif s == 2:
@@ -260,6 +265,8 @@ class Runner:
                     while not progress.finished:
                         progress.update(tid, advance=10.0)
                     progress.stop()
+                    # if res['Terminal']:
+                    #     os.system('bat caches/comments.txt')
                     os.system('clear')
                     print_hello()
             else:

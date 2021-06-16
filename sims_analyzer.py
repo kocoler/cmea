@@ -2,11 +2,13 @@ from snownlp import SnowNLP
 from termcolor import colored
 
 
-def analyze(words) -> float:
+def analyze(words):
+    if len(words) == 0:
+        return 0
     return SnowNLP(words).sentiments
 
 
-def judge_emotion(score, color=True, suffix='评论') -> str:
+def judge_emotion(score, color=True, suffix='评论'):
     if score >= 0.9:
         if color:
             return colored('极喜/极激动/舒服的'+suffix, 'red', attrs=['bold'])
