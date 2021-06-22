@@ -18,7 +18,7 @@ def print_bey():
     print(f.renderText("B E Y"))
 
 
-def get_function_obj(answers) -> str:
+def get_function_obj(answers):
     obj_str = answers['top function']
     if obj_str == 'Functions related to users':
         return 'Input user name'
@@ -30,7 +30,7 @@ def get_function_obj(answers) -> str:
     return 'QUIT'
 
 
-def print_menu_level_1() -> dict:
+def print_menu_level_1():
     questions = [
         {
             'type': 'list',
@@ -54,7 +54,7 @@ def print_menu_level_1() -> dict:
     return answers
 
 
-def print_menu_song_info() -> dict:
+def print_menu_song_info():
     questions = [
         {
             'type': 'list',
@@ -72,7 +72,7 @@ def print_menu_song_info() -> dict:
     return answers
 
 
-def print_comments_level_1() -> dict:
+def print_comments_level_1():
     questions = [
         {
             'type': 'checkbox',
@@ -181,7 +181,7 @@ class PrintPrompt:
     def set_step(self, step):
         self.step = step
 
-    def print_prompt(self) -> dict:
+    def print_prompt(self):
         s = self.step
         if s == 0:
             answers = print_menu_level_1()

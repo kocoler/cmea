@@ -13,7 +13,7 @@ class EncryptParams:
         self.nonce = '0CoJUm6Qyw8W8jud'
         self.pubKey = '010001'
 
-    def get(self, text) -> map:
+    def get(self, text):
         text = json.dumps(text)
         sec_key = (''.join(
             map(lambda xx: (hex(ord(xx))[2:]), str(os.urandom(16)))))[0:16]
@@ -50,5 +50,5 @@ class EncryptParams:
         return format(rs, 'x').zfill(256)
 
 
-def generate_encrypt_params(params) -> map:
+def generate_encrypt_params(params):
     return EncryptParams().get(params)

@@ -1,0 +1,8 @@
+requests==2.25.1
+plotly==5.0.0
+pycryptodome==3.10.1
+pyfiglet==0.8.post1
+PyInquirer==1.0.3
+rich==10.4.0
+snownlp==0.12.3
+termcolor==1.1.0

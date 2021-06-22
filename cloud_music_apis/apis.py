@@ -39,7 +39,7 @@ class CloudMusicAPI:
             'Content-Type': 'application/json',
         }
 
-    def login(self, username, password) -> dict:
+    def login(self, username, password):
         url = "https://music.163.com/weapi/login/"
 
         params = encrypt_params.generate_encrypt_params(
@@ -58,7 +58,7 @@ class CloudMusicAPI:
     def get_user_pre_comment(self):
         pass
 
-    def get_user_playlist(self, uid, limit='100', offset='0') -> dict:
+    def get_user_playlist(self, uid, limit='100', offset='0'):
         url = "https://music.163.com/weapi/user/playlist?csrf_token="
 
         params = encrypt_params.generate_encrypt_params(
@@ -81,7 +81,7 @@ class CloudMusicAPI:
         response = requests.request("POST", url, headers=self.headers, data=payload)
         return json.loads(response.text)
 
-    def get_playlist(self, id, offset='0', total=False, n=20, limit=20) -> dict:
+    def get_playlist(self, id, offset='0', total=False, n=20, limit=20):
         url = "https://music.163.com/weapi/v3/playlist/detail"
 
         params = encrypt_params.generate_encrypt_params(
@@ -99,7 +99,7 @@ class CloudMusicAPI:
         response = requests.request("POST", url, headers=self.headers, data=payload)
         return json.loads(response.text)
 
-    def get_songs_info(self, ids, offset='0', total=False, n=20, limit=20) -> dict:
+    def get_songs_info(self, ids, offset='0', total=False, n=20, limit=20):
         url = "https://music.163.com/weapi/v3/playlist/detail"
 
         params = encrypt_params.generate_encrypt_params(
@@ -121,7 +121,7 @@ class CloudMusicAPI:
         response = requests.request("POST", url, headers=self.headers, data=payload)
         return json.loads(response.text)
 
-    def get_user_info(self, uid) -> dict:
+    def get_user_info(self, uid):
         url = "https://music.163.com/api/v1/user/detail/" + uid
 
         params = encrypt_params.generate_encrypt_params(
@@ -134,13 +134,13 @@ class CloudMusicAPI:
         response = requests.request("GET", url, headers=self.headers, data=payload)
         return json.loads(response.text)
 
-    def get_song_lyric(self, id) -> dict:
+    def get_song_lyric(self, id):
         url = "https://music.163.com/api/song/lyric?os=osx&id=" + id + '&lv=-1&kv=-1&tv=-1'
 
         response = requests.request("GET", url, headers=self.json_headers)
         return json.loads(response.text)
 
-    def get_song_comment(self, id, hot=False, offset='0', limit='30') -> dict:
+    def get_song_comment(self, id, hot=False, offset='0', limit='30'):
         hot_query = "hotcomments"
         if not hot:
             hot_query = "comments"
@@ -165,7 +165,7 @@ class CloudMusicAPI:
         return comments_dict
 
 
-def format_gender(gender) -> str:
+def format_gender(gender):
     if gender == 1:
         return '男'
     elif gender == 2:
@@ -174,7 +174,7 @@ def format_gender(gender) -> str:
         return '未知'
 
 
-def format_timestamp(timestamp) -> str:
+def format_timestamp(timestamp):
     return str(datetime.fromtimestamp(timestamp/1000))
 
 
