@@ -15,13 +15,20 @@ class EncryptParams:
 
     def get(self, text) -> map:
         text = json.dumps(text)
-        sec_key = self._createSecretKey(16)
+        sec_key = (''.join(
+            map(lambda xx: (hex(ord(xx))[2:]), str(os.urandom(16)))))[0:16]
+
+        # 加密两次
         enc_text = self._aes_encrypt(self._aes_encrypt(text, self.nonce), sec_key)
+
         encsec_key = self._rsa_encrypt(sec_key, self.pubKey, self.modulus)
+
+        # 生成 网易云 body payload
         post_data = {
             'params': enc_text,
             'encSecKey': encsec_key
         }
+
         return post_data
 
     def _aes_encrypt(self, text, sec_key):
@@ -42,11 +49,6 @@ class EncryptParams:
             pubKey, 16) % int(modulus, 16)
         return format(rs, 'x').zfill(256)
 
-    def _createSecretKey(self, size):
-        return (''.join(
-            map(lambda xx: (hex(ord(xx))[2:]), str(os.urandom(size)))))[0:16]
-
 
 def generate_encrypt_params(params) -> map:
-    # print('参数加密', EncryptParams().get(params))
     return EncryptParams().get(params)

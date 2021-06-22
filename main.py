@@ -6,7 +6,7 @@ import requests
 from rich.progress import Progress, TextColumn, BarColumn, TimeElapsedColumn, TimeRemainingColumn
 from termcolor import colored
 
-from prompt import PrintPrompt, print_hello
+from prompt import PrintPrompt, print_hello, print_user_login
 import cloud_music_apis.apis
 import sims_analyzer
 import plotly.graph_objects as go
@@ -25,6 +25,8 @@ class Runner:
     top_function = ''
     obj_info = ''
     show_song_info_type = ''
+    signed = ''
+    signed_id = ''
 
     def __init__(self):
         os.system('clear')
@@ -42,11 +44,29 @@ class Runner:
             if s == 0:
                 self.top_function = res['top function']
                 self.obj_info = res['info']
+                if self.top_function == 'user':
+                    login_answer = print_user_login()
+                    password = login_answer['user password']
+                    if password != '':
+                        res = cloud_music_apis.apis.CloudMusicClient.login(self.obj_info, password)
+                        print(res['code'])
+                        if res['code'] == 200:
+                            print(colored('Login successful as {}.'.format(res['profile']['nickname']), 'red'))
+                            self.signed = self.obj_info
+                            self.obj_info = str(res['account']['id'])
+                            self.signed_id = str(res['account']['id'])
+                            os.system('clear')
+                            print_hello(self.signed)
+                        else:
+                            print(colored('Login failed.', 'red'))
+                            prompt.set_step(0)
+                if len(self.obj_info) == 0:
+                    self.obj_info = self.signed_id
             elif s == 1:
                 items = res['show items']
                 if 'BACK TO UP MENU' in items:
                     continue
-                user_info_dict = cloud_music_apis.apis.CloudMusicAPI().get_user_info(self.obj_info)
+                user_info_dict = cloud_music_apis.apis.CloudMusicClient.get_user_info(self.obj_info)
                 user_name = user_info_dict['profile']['nickname']
                 gender = cloud_music_apis.apis.format_gender(user_info_dict['profile']['gender'])
                 creat_time = cloud_music_apis.apis.format_timestamp(user_info_dict['profile']['createTime'])
@@ -140,7 +160,7 @@ class Runner:
                                                                '{:5f}'.format(score)))
                     os.system('bat caches/lyrics.txt')
                 os.system('clear')
-                print_hello()
+                print_hello(self.signed)
             elif s == 5:
                 with Progress(TextColumn("[blue]{task.description}"),
                               BarColumn(bar_width=40),
@@ -268,7 +288,7 @@ class Runner:
                     # if res['Terminal']:
                     #     os.system('bat caches/comments.txt')
                     os.system('clear')
-                    print_hello()
+                    print_hello(self.signed)
             else:
                 break
 

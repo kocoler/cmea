@@ -24,7 +24,7 @@ class CloudMusicAPI:
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) '
                           'Chrome/90.0.4430.212 Safari/537.36',
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Cookie': 'NMTID=00O30M12b0uXhmlo0VFhevxtchLWe0AAAF5bjFdiw'
+            'Cookie': 'NMTID=00O30M12b0uXhmlo0VFhevxtchLWe0AAAF5bjFdiw;os=pc;'
         }
         self.json_headers = {
             'Origin': 'https://music.163.com',
@@ -40,7 +40,7 @@ class CloudMusicAPI:
         }
 
     def login(self, username, password) -> dict:
-        url = "https://music.163.com/weapi/login"
+        url = "https://music.163.com/weapi/login/"
 
         params = encrypt_params.generate_encrypt_params(
             {
@@ -177,3 +177,5 @@ def format_gender(gender) -> str:
 def format_timestamp(timestamp) -> str:
     return str(datetime.fromtimestamp(timestamp/1000))
 
+
+CloudMusicClient = CloudMusicAPI()

@@ -2,12 +2,15 @@ from __future__ import print_function, unicode_literals
 from pyfiglet import Figlet
 from PyInquirer import prompt, Separator
 from termcolor import colored
+import cloud_music_apis.apis
 
 
-def print_hello():
+def print_hello(username=None):
     f = Figlet(font='slant')
     print(f.renderText("C M E A"))
     print(colored("Cloud Music Emotion Analyzer\n", 'red'))
+    if username is not None and username != '':
+        print(colored("Already signed as {}\n".format(username), 'red'))
 
 
 def print_bey():
@@ -153,6 +156,18 @@ def print_song_list():
     return answers
 
 
+def print_user_login():
+    questions = [
+        {
+            'type': 'password',
+            'name': 'user password',
+            'message': 'Input password if you know.',
+        }
+    ]
+    answers = prompt(questions)
+    return answers
+
+
 class PrintPrompt:
     steps = {"menu_hello": 0, "menu_show_user_info": 1, "menu_show_song": 2, "menu_show_song_list": 3,
              "menu_show_song_info": 4,
@@ -162,6 +177,9 @@ class PrintPrompt:
     def __init__(self):
         self.step = 0
         print_hello()
+
+    def set_step(self, step):
+        self.step = step
 
     def print_prompt(self) -> dict:
         s = self.step
