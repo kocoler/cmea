@@ -14,3 +14,10 @@ Build under ...
 
 And some basic emotion analysis.
 
+### how to run
+
+```bash
+ $ pip install -r requerments.txt
+ $ python main.py
+```
+
